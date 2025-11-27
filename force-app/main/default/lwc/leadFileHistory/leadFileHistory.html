@@ -1,0 +1,48 @@
+<template>
+    <lightning-card title="Scoring History">
+        <!-- ВОТ ЭТОТ контейнер и будет скроллиться -->
+        <div class="history-scroll">
+
+            <template for:each={history} for:item="h">
+                <div key={h.Id} class="slds-box slds-m-around_small">
+
+                    <p><b># {h.index} — {h.Change_Datetime__c}</b></p>
+
+                    <p><b>Statements Handler:</b> {h.Statements_Handler__c}</p>
+
+                    <p><b>Old:</b>
+                        <template if:true={h.Old_File_URL__c}>
+                            <a href={h.Old_File_URL__c} target="_blank">Open old file</a>
+                        </template>
+                    </p>
+
+                    <p><b>New:</b>
+                        <template if:true={h.New_File_URL__c}>
+                            <a href={h.New_File_URL__c} target="_blank">Open new file</a>
+                        </template>
+                    </p>
+
+                    <template if:true={h.logs.length}>
+                        <lightning-accordion allow-multiple-sections-open>
+                            <lightning-accordion-section name="logs" label="LenderPro Logs">
+                                <template for:each={h.logs} for:item="lg">
+
+                                    <div key={lg.key} class="slds-m-vertical_small slds-box slds-theme_shade">
+                                        <p><b>{lg.created}</b></p>
+
+                                        <pre class="log-pre">
+{lg.text}
+                                        </pre>
+                                    </div>
+
+                                </template>
+                            </lightning-accordion-section>
+                        </lightning-accordion>
+                    </template>
+
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

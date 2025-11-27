@@ -1,0 +1,16 @@
+.history-scroll {
+    max-height: 260px;      /* высота блока, после неё появится скролл */
+    overflow-y: auto;       /* вертикальный скролл */
+    padding-right: 0.5rem;  /* небольшой отступ, чтобы скролл не резал текст */
+}
+
+/* просто чтобы content выглядел аккуратнее */
+.log-pre {
+    white-space: pre-wrap;
+    background: #ffffff;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #dddbda;
+    font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.75rem;
+}
