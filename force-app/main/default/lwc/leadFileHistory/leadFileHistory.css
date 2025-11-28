@@ -1,16 +1,54 @@
-.history-scroll {
-    max-height: 260px;      /* высота блока, после неё появится скролл */
-    overflow-y: auto;       /* вертикальный скролл */
-    padding-right: 0.5rem;  /* небольшой отступ, чтобы скролл не резал текст */
+/* Общий контейнер */
+.small-card {
+    font-size: 0.80rem;   /* 80% от нормального */
 }
 
-/* просто чтобы content выглядел аккуратнее */
-.log-pre {
+/* Секция истории */
+.history-block {
+    padding: 8px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Заголовок истории (# 1 — ...) */
+.history-title {
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* Ссылки Old / New */
+.history-link {
+    font-size: 0.80rem;
+}
+
+/* АККОРДЕОН — уменьшить заголовок */
+.slds-accordion__summary {
+    font-size: 0.80rem !important;
+    padding: 4px 6px !important;
+}
+
+/* Внутренний контейнер логов */
+.log-entry {
+    padding: 6px !important;
+    margin: 6px 0 !important;
+    font-size: 0.75rem !important; /* ещё меньше */
+}
+
+/* Текст content */
+.log-text {
     white-space: pre-wrap;
-    background: #ffffff;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #dddbda;
-    font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    background: #fff;
+    padding: 6px;
+    border-radius: 5px;
+    font-size: 0.70rem !important; /* миниатюрный текст */
+    line-height: 1.1;
+}
+
+.uuid-line {
     font-size: 0.75rem;
+    color: #444;
+    margin-bottom: 4px;
+}  
+.uuid {
+        font-size: 12px;
+        color: #555;
 }

@@ -1,48 +1,49 @@
 <template>
-    <lightning-card title="Scoring History">
-        <!-- ВОТ ЭТОТ контейнер и будет скроллиться -->
-        <div class="history-scroll">
+    <lightning-card title="Scoring History" class="small-card">
 
-            <template for:each={history} for:item="h">
-                <div key={h.Id} class="slds-box slds-m-around_small">
+        <template for:each={history} for:item="h">
 
-                    <p><b># {h.index} — {h.Change_Datetime__c}</b></p>
+            <div key={h.Id} class="slds-box history-block">
 
-                    <p><b>Statements Handler:</b> {h.Statements_Handler__c}</p>
-
-                    <p><b>Old:</b>
-                        <template if:true={h.Old_File_URL__c}>
-                            <a href={h.Old_File_URL__c} target="_blank">Open old file</a>
-                        </template>
-                    </p>
-
-                    <p><b>New:</b>
-                        <template if:true={h.New_File_URL__c}>
-                            <a href={h.New_File_URL__c} target="_blank">Open new file</a>
-                        </template>
-                    </p>
-
-                    <template if:true={h.logs.length}>
-                        <lightning-accordion allow-multiple-sections-open>
-                            <lightning-accordion-section name="logs" label="LenderPro Logs">
-                                <template for:each={h.logs} for:item="lg">
-
-                                    <div key={lg.key} class="slds-m-vertical_small slds-box slds-theme_shade">
-                                        <p><b>{lg.created}</b></p>
-
-                                        <pre class="log-pre">
-{lg.text}
-                                        </pre>
-                                    </div>
-
-                                </template>
-                            </lightning-accordion-section>
-                        </lightning-accordion>
+                <p class="history-title"># {h.index} — {h.Change_Datetime__c}</p>
+                <template if:true={h.uuid}>
+                    <b>UUID: </b> <span class="uuid">{h.uuid}</span>
+                </template>
+                <p><b>Old:</b>
+                    <template if:true={h.Old_File_URL__c}>
+                        <a href={h.Old_File_URL__c} class="history-link" target="_blank">
+                            Open old file
+                        </a>
                     </template>
+                </p>
 
-                </div>
-            </template>
+                <p><b>New:</b>
+                    <template if:true={h.New_File_URL__c}>
+                        <a href={h.New_File_URL__c} class="history-link" target="_blank">
+                            Open new file
+                        </a>
+                    </template>
+                </p>
 
-        </div>
+                <!-- ЛОГИ -->
+                <template if:true={h.logs.length}>
+                    <lightning-accordion allow-multiple-sections-open>
+                        <lightning-accordion-section name={h.Id} label="LenderPro Logs">
+
+                            <template for:each={h.logs} for:item="lg">
+                                <div key={lg.key} class="slds-box slds-theme_shade log-entry">
+                                    <p><b>{lg.createdAt}</b></p>
+
+                                    <pre class="log-text">{lg.content}</pre>
+                                </div>
+                            </template>
+
+                        </lightning-accordion-section>
+                    </lightning-accordion>
+                </template>
+
+            </div>
+        </template>
+
     </lightning-card>
 </template>

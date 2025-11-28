@@ -1,29 +1,31 @@
 trigger LeadFileHistoryTrigger on Lead (after update) {
+    if (!Trigger.isAfter || !Trigger.isUpdate) {
+        return;
+    }
 
-    List<File_History__c> histories = new List<File_History__c>();
-    List<Id> leadIds = new List<Id>();
+    List<File_History__c> historiesToInsert = new List<File_History__c>();
 
-    for (Lead newL : Trigger.new) {
+    for (Lead newLead : Trigger.new) {
+        Lead oldLead = Trigger.oldMap.get(newLead.Id);
 
-        Lead oldL = Trigger.oldMap.get(newL.Id);
+        String oldUrl = oldLead.FILE__c;
+        String newUrl = newLead.FILE__c;
 
-        String oldUrl = oldL.FILE__c;
-        String newUrl = newL.FILE__c;
-
-        if (oldUrl != newUrl) {
-
-            histories.add(new File_History__c(
-                Lead__c = newL.Id,
-                Old_File_URL__c = oldUrl,
-                New_File_URL__c = newUrl,
-                Change_Datetime__c = System.now(),
-                Statements_Handler__c = newL.Statments_Handler__c
+        // 1) Если старое значение было NULL – НИЧЕГО не пишем (первая загрузка файла)
+        // 2) Пишем запись только при реальном изменении значения
+        if (oldUrl != null && oldUrl != newUrl) {
+            historiesToInsert.add(new File_History__c(
+                Lead__c             = newLead.Id,
+                Old_File_URL__c     = oldUrl,
+                New_File_URL__c     = newUrl,
+                Change_Datetime__c  = System.now(),
+                // Снапшот поля лида Statements_Handler__c
+                Statements_Handler__c = newLead.Statments_Handler__c
             ));
-
-            leadIds.add(newL.Id);
         }
     }
 
-    if (!histories.isEmpty()) insert histories;
-    if (!leadIds.isEmpty()) System.enqueueJob(new LeadFileHistoryQueue(leadIds));
+    if (!historiesToInsert.isEmpty()) {
+        insert historiesToInsert;
+    }
 }
